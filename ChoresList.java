@@ -28,7 +28,14 @@ public class ChoresList
     }
     
     public ArrayList<Chore> getChoresList()
-    { return chores; }
+    { 
+        ArrayList<Chore> safeCopy = new ArrayList<>();
+        for (Chore c : chores)
+        {
+            safeCopy.add(c);
+        }
+        return safeCopy; 
+    }
     
     public void save()
     {
