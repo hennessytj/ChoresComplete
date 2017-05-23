@@ -89,27 +89,29 @@ public class ChoresList
         
         chores = new ArrayList<Chore>();
 
+        // if application has already been started today use completion
+        // status values from previous session
         boolean alreadyStartedToday = getLastStart().equals(today(true));
 
         // e.g., users/ian/days/friday.txt
         String path = "src/users/" + name + "/chores/" + today(false) + ".txt";
         try
         {
-            File file = new File(path);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
             String line;
             while ((line = reader.readLine()) != null)
-            {
+            {   // use commas to delimit tokens
                 String[] tokens  = line.split(",");
                 String choreName = tokens[0];
                 int choreValue   = Integer.parseInt(tokens[1]);
-                boolean completionStatus;
+                boolean completionStatus;  // has chore been completed today?
                 if (alreadyStartedToday)
                 {
                     completionStatus = Boolean.parseBoolean(tokens[2]);
                 }
                 else
-                {
+                {   // if application has not been started today no chores have
+                    // been completed yet so mark false
                     completionStatus = false;
                 }
                 chores.add(new Chore(choreName, choreValue, completionStatus));
@@ -131,12 +133,9 @@ public class ChoresList
         
         try
         {
-            // example to append to top line of file
             String path = "src/logs/last_started.txt";
-            File file = new File(path);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
             dateOfLastStart = reader.readLine();
-            //System.out.println(dateOfLastStart);
             reader.close();
         }
         catch (IOException ex)
@@ -145,7 +144,6 @@ public class ChoresList
                     ex.toString();
             new Logger("errors.txt", message);
         }
-        
         return dateOfLastStart;
     }
     
@@ -159,12 +157,12 @@ public class ChoresList
     {
         String today;
         if (formatted)
-        {
+        {   // e.g., Monday 01/01/2000
             SimpleDateFormat dft = new SimpleDateFormat("EEEE MM/dd/yyyy");
             today = dft.format(new Date());
         }
         else
-        {
+        {   // e.g., Monday
             Date day = new Date();
             SimpleDateFormat dft = new SimpleDateFormat("EEEE"); 
             today = dft.format(day).toLowerCase();
@@ -184,8 +182,7 @@ public class ChoresList
         String path = "src/logs/last_started.txt";
         
         try
-        {
-            // Overwrite existing file write new date
+        {   // overwrite existing file to write change
             FileWriter fw = new FileWriter(new File(path));
             fw.write(today(true) + System.getProperty("line.separator"));
             fw.close();
