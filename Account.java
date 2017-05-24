@@ -8,10 +8,18 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- *
+ *           Returns Method                   Description
+ * -------------------------------------------------------------------
+ *                   Account(String name)     Take user name and create account
+ *              int  getBalance()             Returns users balance
+ *           String  getName()                Return account owners name
+ *             void  deposit(int amount)      Increment balance by amount
+ *             void  withdraw(int amount)     Decrement balance by amount
+ * 
  * @author Hennessy
  * @version 1.0
  */
+
 public class Account
 {
     private int balance;
@@ -32,25 +40,42 @@ public class Account
         balance = readBalanceFromFile();
     }
     
+    /**
+     * Getter method to return user balance.
+     * @return integer value corresponding to account balance
+     * NOTE: Assumes balance is stored as a four byte integer.
+     */
     public int getBalance()
     { return balance; }
     
+    /**
+     * Getter method to return account owners name.
+     * @return string user name
+     */
     public String getName()
     { return name; }
     
-    public void deposit(int depositAmount)
+    /**
+     * Method allows user balance to be incremented.
+     * @param amount integer increment value
+     */
+    public void deposit(int amount)
     {
-        assert depositAmount > 0;
-        balance += depositAmount;
+        assert amount > 0;
+        balance += amount;
         assert balance >= 0;
     }
     
-    public void withdraw(int withdrawAmount)
+    /**
+     * Method allows user to withdraw amount from balance.
+     * @param amount integer decrement value
+     */
+    public void withdraw(int amount)
     {
-        assert withdrawAmount > 0;
-        if  (balance >= withdrawAmount)
+        assert amount > 0;
+        if  (balance >= amount)
         { 
-            balance -= withdrawAmount; 
+            balance -= amount; 
         }
         else 
         { 
