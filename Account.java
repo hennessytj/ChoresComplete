@@ -15,6 +15,9 @@ import java.io.IOException;
  *           String  getName()                Return account owners name
  *             void  deposit(int amount)      Increment balance by amount
  *             void  withdraw(int amount)     Decrement balance by amount
+ *             void  writeBalanceToFile()     Save balance to disk
+ * 
+ * Class definition assumes user has a specific path to an account folder.
  * 
  * @author Hennessy
  * @version 1.0
@@ -84,10 +87,14 @@ public class Account
         assert balance >= 0;    
     }
     
+    /**
+     * Method to save balance to disk.
+     */
     @SuppressWarnings({"ResultOfObjectAllocationIgnored", 
         "ConvertToTryWithResources"})
     public void writeBalanceToFile()
     {
+        // TODO: Make path more flexible, i.e., not hardcoded
         String path = "src/users/" + name + "/account/balance.txt";
         
         try
@@ -99,7 +106,8 @@ public class Account
         }
         catch (IOException ex)
         {
-            String message = "Account.java: balance.txt write error. " + 
+            String message = "Account.java: balance.txt write error. " +
+                    "Balance not saved. " +
                     ex.toString();
             new Logger("errors.txt", message);
         }
@@ -125,11 +133,12 @@ public class Account
         }
         catch (IOException ex)
         {
-            String message = "Account.java: balance.txt read error. " + 
+            String message = "Account.java: balance.txt read error. " +
+                    " Balance not retrieved from disk. " +
                     ex.toString();
             new Logger("errors.txt", message);
         }
- 
+        // If balance was not retrieved set balance to 0
         return line != null ? Integer.parseInt(line) : 0;
     }
 }
