@@ -18,10 +18,12 @@ import java.util.Date;
  * 
  * 
  * @author Hennessy
+ * @version 1.0
  */
 public class Person
 {
-    private final String name;    
+    private final String name;  
+    private final String accountPath;
     private Account earnings;
     private ChoresList dailyChores;      // Users chores for the day
     private final int startBalance;      // If balance is unchanged, this
@@ -32,22 +34,27 @@ public class Person
     {
         if (name == null)
         {
-            String message = "Person.java: name is null.";
+            String message = "Person.java: name is null.  Could not instantiate"
+                    + " person object.";
             new Logger("errors.txt", message);
             System.exit(0);
         }
         
         this.name = name;
         
-        earnings = new Account(name);
+        accountPath = "src/users/" + name + "/account/balance.txt";
+        
+        earnings = new Account(accountPath, name);
         
         startBalance = earnings.getBalance();
         
         dailyChores = new ChoresList(name);
+        
+        assert earnings != null && dailyChores != null;
     }
     
     /**
-     * Returns persons name.
+     * Returns persons name (getter).
      * @return string corresponding to persons name
      */
     public String getName()
@@ -56,6 +63,8 @@ public class Person
     /**
      * Returns the ArrayList of chore objects for the given user.
      * @return ArrayList of chore objects
+     * NOTE: getChoreList() returns a safe copy of the chores list. So, the
+     * list returned here is also a safe copy.
      */
     public ArrayList<Chore> getChoreList()
     { return dailyChores.getChoresList(); }
