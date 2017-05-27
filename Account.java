@@ -26,17 +26,20 @@ import java.io.IOException;
 public class Account
 {
     private int balance;
+    private final String path;
     private final String name;
     
     @SuppressWarnings("ResultOfObjectAllocationIgnored")
-    public Account(String name)
+    public Account(String path, String name)
     {
-        if (name == null) 
+        if (path == null || name == null) 
         {
             String message = "Account.java: name is null.";
             new Logger("errors.txt", message);
             System.exit(0);
         }
+        
+        this.path = path;
         
         this.name = name;
         
@@ -93,14 +96,12 @@ public class Account
     @SuppressWarnings({"ResultOfObjectAllocationIgnored", 
         "ConvertToTryWithResources"})
     public void writeBalanceToFile()
-    {
-        // TODO: Make path more flexible, i.e., not hardcoded
-        String path = "src/users/" + name + "/account/balance.txt";
-        
+    {        
         try
         {
             // Overwrite existing file
             FileWriter fw = new FileWriter(new File(path));
+            // line.separator uses the OS specific newline character sequence
             fw.write(balance + System.getProperty("line.separator"));
             fw.close();
         }
@@ -124,10 +125,7 @@ public class Account
         
         try
         {
-            // example to append to top line of file
-            String path = "src/users/" + name + "/account/balance.txt";
-            File file = new File(path);
-            BufferedReader reader = new BufferedReader(new FileReader(file));
+            BufferedReader reader = new BufferedReader(new FileReader(new File(path)));
             line = reader.readLine();
             reader.close();
         }
