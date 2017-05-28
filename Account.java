@@ -34,7 +34,7 @@ public class Account
     {
         if (path == null || name == null) 
         {
-            String message = "Account.java: name is null.";
+            String message = "Account.java: path or name is null.";
             new Logger("errors.txt", message);
             System.exit(0);
         }
