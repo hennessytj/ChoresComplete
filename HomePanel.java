@@ -3,12 +3,12 @@ package chorescomplete;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.imageio.ImageIO;
-import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,7 +17,7 @@ public final class HomePanel extends JPanel
 {
     private JLabel logoLabel;
     private JLabel dateLabel;
-    private Box pictureBox;
+    private JLabel pictureLabel;
     
     @SuppressWarnings({"CallToPrintStackTrace",
         "ResultOfObjectAllocationIgnored"})
@@ -29,9 +29,8 @@ public final class HomePanel extends JPanel
         
         dateLabel = getDateLabel();
         
-        // Set up picture box
+        pictureLabel = getPictureLabel();
 
-        // Add components to HomePanel instance
         addToPanel();
     }
     
@@ -88,57 +87,45 @@ public final class HomePanel extends JPanel
         return new Color(red, green, blue);
     }
     
-    private void setUpPictureBox()
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    private JLabel getPictureLabel()
     {
-        // add at later point
-    }
-    
-            
-    // needs a close button on bottom which closes just the particular instance
-    // of the background panel, saves state before closing.
-        /* Code for constructor to load random image
         try
         {
-            // Add image to background at some other point
-            file = new File("images/dogs");
+            // Use file to get the number of images in directory
+            File file = new File("src/images/dogs");
             assert file.canRead();
+            // Put all files in directory into array to ascertain number of
+            // pictures in directory
             File files[] = file.listFiles();
-            SIZE = files.length;
-            assert SIZE != 0;
+            int size = files.length;
+            assert size != 0;
             // E.g., random num = 4, then dog4.jpg is loaded
-            int randNum = getRandomNumber();
-            assert randNum < SIZE && randNum > 0;
-            String path = "images/dog" + randNum + ".jpg";
-            System.out.println("images/dog4.jpg");
+            // Pictures are labeled 0 to size - 1
+            int randNum = (int) (Math.random() * size) ;
+            assert randNum < size && randNum >= 0;
+            // Create path to use in loading image from directory
+            String path = "src/images/dogs/dog" + randNum + ".jpg";
             assert path != null;
-            
+            JLabel picture = new JLabel();
+            picture.setIcon(getImageIcon(path));
+            return picture;
         }
         catch (Exception ex)
         {
-            String message = "BackgroundPanel.java: file read error "
+            String message = "HomePanel.java: file read error.  Could not"
+                    + " load image. "
                     + ex.toString();
             new Logger("errors.txt", message);
         }
-    */
-    
-    /**
-     * Simple random number generator to support object construction.
-     * NOTE: The method is final because it is called from a constructor.
-     * This guarantees this method cannot be overrode ensuring the right
-     * method is called by the constructor.
-     * @return random integer between 0 and SIZE.
-     */
-    /*
-    private int getRandomNumber()
-    { return (int) (Math.random() * SIZE); }
-    */
+        return null;
+    }
     
     private void addToPanel()
     {              
         this.setBackground(Color.white);
         this.add(logoLabel);
-        // Find way to put date on bottom
         this.add(dateLabel);
-        //add ian and rileys money
+        this.add(pictureLabel);
     }
 }
