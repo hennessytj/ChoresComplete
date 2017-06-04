@@ -224,6 +224,26 @@ public class BackgroundPanel extends JPanel
                     //System.out.println("Oops, new balance is " + getBalance());
                 }
             }
+            sleep();
+        }
+    }
+    
+    /**
+     * Used to put process to sleep for a short duration.
+     * @throws ex threads throw exceptions
+     */
+    @SuppressWarnings("ResultOfObjectAllocationIgnored")
+    private void sleep()
+    {           
+        try
+        {
+            Thread.sleep(100);
+        }
+        catch (Exception ex)
+        {
+            String message = "BackgroundPanel.java: thread sleep error"
+                + ex.toString();
+            new Logger("errors.txt", message);
         }
     }
     
